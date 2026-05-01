@@ -1,0 +1,35 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  originalPrice Float?
+  image         String
+  category      String
+  weightOptions String   // JSON string of options like ["250g", "500g", "1kg"]
+  isFeatured    Boolean  @default(false)
+  isPopular     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  userId      String?
+  totalAmount Float
+  status      String   @default("PENDING") // PENDING, PAID, SHIPPED, DELIVERED
+  items       String   // JSON string of cart items
+  address     String   // JSON string of shipping address
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
